@@ -28,8 +28,8 @@ public class GestionesocietaApplication implements CommandLineRunner {
 //		batteriaDiTestService.testRimuoviSocieta();
 //		batteriaDiTestService.testInserisciDipendente();
 //		batteriaDiTestService.testAggiornaDipendente();
-		batteriaDiTestService.testTrovaConDipendetiConRedditoAnnuoMaggioreDi();
-		
+//		batteriaDiTestService.testTrovaConDipendetiConRedditoAnnuoMaggioreDi();
+		batteriaDiTestService.testCercaMaxDataAssunzioneEDataFondazioneMinoreDi();
 		System.out.println("################ END   #################");
 	}
 

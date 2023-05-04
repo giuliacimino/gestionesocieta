@@ -1,5 +1,6 @@
 package it.prova.gestionesocieta.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class DipendenteServiceImpl implements DipendenteService{
 		return (List<Dipendente>) dipendenteRepository.findAll();
 		
 		
+		
+	}
+
+	@Transactional(readOnly = true)
+	public Dipendente cercaMaxDataAssunzioneEDataFondazioneMinoreDi(LocalDate dataFondazioneSocieta) {
+		return dipendenteRepository.findTopBySocieta_DataFondazioneBeforeOrderByDataAssunzioneAsc(dataFondazioneSocieta);
 		
 	}
 

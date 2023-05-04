@@ -9,6 +9,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.prova.gestionesocieta.exception.SocietaConDipendentiException;
 import it.prova.gestionesocieta.model.Dipendente;
 import it.prova.gestionesocieta.model.Societa;
 
@@ -64,9 +65,10 @@ public class BatteriaDiTestService {
 
 		dipendente1.setSocieta(lancome);
 		try {
-			societaService.rimuovi(lancome);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			societaService.rimuovi(lancome.getId());
+			throw new SocietaConDipendentiException("errore: la societa ha dei dipendenti.");
+		} catch (SocietaConDipendentiException e) {
+			System.out.println("lanciata eccezione custom.");
 			e.printStackTrace();
 		}
 
@@ -135,6 +137,32 @@ public class BatteriaDiTestService {
 		System.out.println("*********** testTrovaConDipendetiConRedditoAnnuoMaggioreDi: fine ***********");
 
 		
+	}
+	
+	public void testCercaMaxDataAssunzioneEDataFondazioneMinoreDi () {
+		System.out.println("*********** testCercaMaxDataAssunzioneEDataFondazioneMinoreDi: inizio ***********");
+		Societa chanel = new Societa("chanel", "via delle camelie 1", LocalDate.of(1990, 9, 10));
+		societaService.inserisciSocieta(chanel);
+		if (chanel.getId() == null) {
+			throw new RuntimeException("errore: societa non inserita.");
+		}
+		Societa nike= new Societa("nike", "via delle scarpe 1", LocalDate.of(1980, 9, 10));
+		societaService.inserisciSocieta(nike);
+		if (nike.getId()==null) {
+			throw new RuntimeException("errore: nike non inserita.");
+		}
+		Dipendente dipendente3 = new Dipendente("maria", "mario", LocalDate.of(2012, 11, 2), 30000, chanel);
+		dipendenteService.inserisciNuovoDipendente(dipendente3);
+		Dipendente dipendente4 = new Dipendente("sofia", "gatta", LocalDate.of(2010, 7, 12), 150000, nike);
+		dipendenteService.inserisciNuovoDipendente(dipendente4);
+		Dipendente dipendente5= new Dipendente("rosa", "rose", LocalDate.of(2007, 9, 10), 16000, nike);
+		dipendenteService.inserisciNuovoDipendente(dipendente5);
+		
+		LocalDate dataFondazioneEsempio= LocalDate.of(1988, 1, 1);
+		Dipendente dipendenteResult= dipendenteService.cercaMaxDataAssunzioneEDataFondazioneMinoreDi(dataFondazioneEsempio);
+		System.out.println(dipendenteResult);
+		System.out.println("*********** testCercaMaxDataAssunzioneEDataFondazioneMinoreDi: fine ***********");
+
 	}
 
 }
