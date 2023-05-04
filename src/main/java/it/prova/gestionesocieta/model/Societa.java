@@ -45,6 +45,10 @@ public class Societa {
 		this.dataFondazione= dataFondazione;
 		
 	}
+	
+	public Societa(String ragioneSociale) {
+		this.ragioneSociale=ragioneSociale;
+	}
 
 
 	public Long getId() {
